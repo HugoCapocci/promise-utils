@@ -8,12 +8,12 @@ describe('promiseEach', () => {
         setTimeout(() => {
           console.log('resolve value ', value);
           resolve(value);
-        }, 100);
+        }, 1000);
       });
     })
     .then((results) => {
       expect(results).toEqual(values);
       done();
     });
-  });
+  }, 10000);
 });
