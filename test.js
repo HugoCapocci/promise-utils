@@ -5,7 +5,7 @@ const testPromise =  (value) => {
     setTimeout(() => {
       console.log('resolve value ', value);
       resolve(value);
-    }, 1000);
+    }, 1500);
   });
 }
 
@@ -22,11 +22,11 @@ describe('promiseEach', () => {
 
 describe('promiseBatch', () => {
   it('Should execute batch of promises in series', (done) => {
-    const values = [1, 2, 3, 4, 5, 6];
+    const values = [1, 2, 3, 4, 5, 6, 7];
     promiseBatch(values, testPromise, 2)
     .then((results) => {
       expect(results).toEqual(values);
       done();
     });
-  }, 5000);
+  }, 10000);
 });

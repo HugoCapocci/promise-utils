@@ -9,5 +9,15 @@ export const promiseEach = (items, next) => {
     ,
     Promise.resolve([])
   );
+};
 
+export const promiseBatch = (items, next, batchSize) => {
+  if (items.length === 0) return Promise.resolve();
+
+  const matrix = [];
+  for (let start = 0; start < items.length; start += batchSize) {
+    matrix.push(items.slice(start, start + batchSize));
+  }
+
+  return promiseEach(matrix, (array) => Promise.all(array.map(next)));
 }
