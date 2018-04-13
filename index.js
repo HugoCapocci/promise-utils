@@ -1,3 +1,6 @@
+const flatten = (matrix) =>
+  matrix.reduce( (acc, array) => acc.concat(array), [])
+
 export const promiseEach = (items, next) => {
   if (items.length === 0) return Promise.resolve();
 
@@ -15,9 +18,13 @@ export const promiseBatch = (items, next, batchSize) => {
   if (items.length === 0) return Promise.resolve();
 
   const matrix = [];
-  for (let start = 0; start < items.length; start += batchSize) {
-    matrix.push(items.slice(start, start + batchSize));
-  }
+  const medium = Math.ceil(items.length / batchSize);
 
-  return promiseEach(matrix, (array) => Promise.all(array.map(next)));
+  for (let start = 0; start < items.length; start += medium) {
+    matrix.push(items.slice(start, start + medium));
+  }
+  console.log('matrix: ', matrix);
+  const promises = matrix.map((array) => promiseEach(array, next));
+  return Promise.all(promises)
+  .then(flatten);
 }
